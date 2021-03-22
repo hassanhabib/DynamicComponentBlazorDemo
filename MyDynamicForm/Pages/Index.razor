@@ -1,0 +1,32 @@
+﻿@page "/"
+@using MyDynamicForm.Components
+
+<select @onchange="OnChange">
+    <option value="@nameof(CheckBoxComponent)">
+        @nameof(CheckBoxComponent)
+    </option>
+
+    <option value="@nameof(TextBoxComponent)">
+        @nameof(TextBoxComponent)
+    </option>
+
+    <option value="@nameof(RadioButtonComponent)">
+        @nameof(RadioButtonComponent)
+    </option>
+</select>
+
+<br />
+<br />
+
+<DynamicComponent Type="selectedType" Parameters="@(new Dictionary<string, object>())" />
+
+@code
+{
+    Type selectedType = typeof(CheckBoxComponent);
+
+    public void OnChange(ChangeEventArgs changeEventArgs)
+    {
+        selectedType = 
+            Type.GetType($"MyDynamicForm.Components.{changeEventArgs.Value}");
+    }
+}
